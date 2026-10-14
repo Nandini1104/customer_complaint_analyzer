@@ -1,0 +1,15 @@
+{% macro badge(value) %}<span class="badge text-bg-{{ value|badge }}">{{ value }}</span>{% endmacro %}
+{% macro sentiment(value) %}{% if value %}<span><span class="sent-dot sent-{{ value }}"></span>{{ value }}</span>{% else %}-{% endif %}{% endmacro %}
+{% macro pager(pagination, endpoint) %}
+{% if pagination.pages > 1 %}
+<nav class="mt-3"><ul class="pagination pagination-sm mb-0 flex-wrap">
+  {% set args = request.args.to_dict() %}
+  <li class="page-item {{ 'disabled' if not pagination.has_prev }}"><a class="page-link" href="{{ url_for(endpoint, **dict(args, page=pagination.prev_num or 1)) }}">Previous</a></li>
+  {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+    {% if p %}<li class="page-item {{ 'active' if p == pagination.page }}"><a class="page-link" href="{{ url_for(endpoint, **dict(args, page=p)) }}">{{ p }}</a></li>
+    {% else %}<li class="page-item disabled"><span class="page-link">…</span></li>{% endif %}
+  {% endfor %}
+  <li class="page-item {{ 'disabled' if not pagination.has_next }}"><a class="page-link" href="{{ url_for(endpoint, **dict(args, page=pagination.next_num or pagination.pages)) }}">Next</a></li>
+</ul></nav>
+{% endif %}
+{% endmacro %}

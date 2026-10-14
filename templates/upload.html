@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Upload Complaints{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">Upload Complaints (CSV)</h1>
+<div class="row g-3">
+  <div class="col-lg-7"><div class="card p-4">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label class="form-label">CSV file (max 2 MB, 5000 rows)</label>
+      <input class="form-control mb-3" type="file" name="file" accept=".csv" required>
+      <button class="btn btn-primary">Upload &amp; Analyze</button>
+    </form>
+    <hr><form method="post" action="{{ url_for('complaints.upload_sample') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <p class="text-muted small mb-2">No file handy? Import the bundled demo data (fictional complaints). Already-imported rows are skipped as duplicates.</p>
+      <button class="btn btn-outline-primary btn-sm">Import sample_complaints.csv</button></form>
+  </div></div>
+  <div class="col-lg-5"><div class="card p-4"><h6>Required format</h6>
+    <code class="d-block small mb-2">customer_name,customer_email,product,complaint_text,category,platform,timestamp</code>
+    <p class="small text-muted mb-0">Required: customer_name, customer_email, complaint_text. Others are optional (category blank = auto-detected; timestamp like 2026-10-01 10:00:00). Optional extra columns: customer_phone, reference_id.</p></div></div>
+</div>
+{% if summary %}
+<div class="card mt-3"><div class="card-header">Upload result</div><div class="card-body">
+  <div class="row text-center g-3">
+    <div class="col-6 col-md-3"><div class="stat-label">Total rows</div><div class="stat-value">{{ summary.total }}</div></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Processed</div><div class="stat-value text-success">{{ summary.processed }}</div></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Failed</div><div class="stat-value text-danger">{{ summary.failed }}</div></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Duplicates</div><div class="stat-value text-warning">{{ summary.duplicates }}</div></div>
+  </div>
+  {% if summary.errors %}<hr><div class="small"><strong>Row errors</strong><ul class="mb-0">{% for e in summary.errors[:30] %}<li>{{ e }}</li>{% endfor %}</ul>
+    {% if summary.errors|length > 30 %}<div class="text-muted">…and {{ summary.errors|length - 30 }} more.</div>{% endif %}</div>{% endif %}
+  <a class="btn btn-sm btn-primary mt-3" href="{{ url_for('complaints.list_complaints') }}">View complaints</a>
+</div></div>
+{% endif %}
+{% endblock %}

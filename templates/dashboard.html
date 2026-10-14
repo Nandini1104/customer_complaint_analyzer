@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, sentiment %}
+{% block title %}Dashboard{% endblock %}
+{% block page_id %}dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h1 class="page-title">Customer Support Dashboard</h1>
+  <a class="btn btn-primary" href="{{ url_for('complaints.add_complaint') }}">+ Add Complaint</a>
+</div>
+<div class="row g-3 mb-3">
+  {% for label, value, sub in [
+    ('Total Complaints', stats.total, 'All time'),
+    ('New Complaints', stats.new, 'Waiting for action'),
+    ('In Progress', stats.in_progress, 'Being handled'),
+    ('Resolved', stats.resolved, stats.closed ~ ' closed'),
+    ('Negative Complaints', stats.negative, 'Detected by the model'),
+    ('Avg Resolution Time', stats.avg_resolution_hours|hours, stats.resolved_count ~ ' resolved/closed'),
+    ('Customer Satisfaction', stats.satisfaction_pct ~ '%', 'Share of positive sentiment')] %}
+  <div class="col-6 col-md-4 col-xl"><div class="card stat-card h-100">
+    <div class="stat-label">{{ label }}</div><div class="stat-value">{{ value }}</div><div class="stat-sub">{{ sub }}</div></div></div>
+  {% endfor %}
+</div>
+{% if stats.total == 0 %}
+<div class="alert alert-info">No complaints yet. <a href="{{ url_for('complaints.add_complaint') }}">Add one</a> or
+  <a href="{{ url_for('complaints.upload') }}">upload a CSV</a> (a sample file is included) to see analytics.</div>
+{% endif %}
+<div class="chart-error alert alert-warning d-none"></div>
+<div class="row g-3 mb-3">
+  <div class="col-lg-4"><div class="card h-100"><div class="card-header">Sentiment Distribution</div><div class="card-body"><div class="chart-box"><canvas id="sentimentChart"></canvas></div><p id="sentimentChart-empty" class="text-muted small d-none">No data yet.</p></div></div></div>
+  <div class="col-lg-4"><div class="card h-100"><div class="card-header">Complaint Categories</div><div class="card-body"><div class="chart-box"><canvas id="categoryChart"></canvas></div></div></div></div>
+  <div class="col-lg-4"><div class="card h-100"><div class="card-header">Complaint Status</div><div class="card-body"><div class="chart-box"><canvas id="statusChart"></canvas></div></div></div></div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-7"><div class="card h-100"><div class="card-header">Recent Complaints</div><div class="card-body">
+    {% for c in recent %}
+    <a class="text-decoration-none text-reset" href="{{ url_for('complaints.complaint_detail', complaint_id=c.id) }}">
+    <div class="card complaint-card prio-{{ c.priority }} p-3 mb-2">
+      <div class="d-flex justify-content-between flex-wrap gap-1"><strong>#{{ c.id }} · {{ c.customer.name }}</strong><span class="text-muted small">{{ c.created_at|dt }}</span></div>
+      <div class="text-muted small mb-1">{{ c.product }} · {{ c.category }}</div>
+      <div class="text-clip" style="max-width:100%">{{ c.complaint_text }}</div>
+      <div class="mt-2 d-flex gap-2 flex-wrap align-items-center">{{ sentiment(c.sentiment) }} {{ badge(c.priority) }} {{ badge(c.status) }}</div>
+    </div></a>
+    {% else %}<p class="text-muted mb-0">Nothing here yet.</p>{% endfor %}
+  </div></div></div>
+  <div class="col-lg-5"><div class="card h-100"><div class="card-header">High Priority – Open</div><div class="card-body">
+    {% for c in urgent %}
+    <div class="d-flex justify-content-between border-bottom py-2"><div><a href="{{ url_for('complaints.complaint_detail', complaint_id=c.id) }}">#{{ c.id }} {{ c.customer.name }}</a>
+      <div class="text-muted small">{{ c.category }} · {{ c.created_at|dt('%d %b') }}</div></div>{{ badge(c.status) }}</div>
+    {% else %}<p class="text-muted mb-0">No open high-priority complaints.</p>{% endfor %}
+  </div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

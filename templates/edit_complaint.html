@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Edit Complaint #{{ complaint.id }}{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">Edit Complaint #{{ complaint.id }}</h1>
+<form class="card p-4" method="post" style="max-width:720px">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <p class="text-muted small">The complaint text and sentiment are not editable, so the analysis stays consistent with what the customer wrote.</p>
+  <label class="form-label">Product / Service</label><input class="form-control mb-3" name="product" maxlength="150" value="{{ complaint.product }}">
+  <label class="form-label">Reference ID</label><input class="form-control mb-3" name="reference_id" maxlength="80" value="{{ complaint.reference_id or '' }}">
+  <div class="row g-3 mb-3">
+    <div class="col-md-4"><label class="form-label">Category</label><select class="form-select" name="category">{% for c in categories %}<option {{ 'selected' if c == complaint.category }}>{{ c }}</option>{% endfor %}</select></div>
+    <div class="col-md-4"><label class="form-label">Priority</label><select class="form-select" name="priority">{% for p in ['Low','Medium','High'] %}<option {{ 'selected' if p == complaint.priority }}>{{ p }}</option>{% endfor %}</select></div>
+    <div class="col-md-4"><label class="form-label">Platform</label><select class="form-select" name="platform">{% for p in platforms %}<option {{ 'selected' if p == complaint.platform }}>{{ p }}</option>{% endfor %}</select></div>
+  </div>
+  <div class="d-flex gap-2"><button class="btn btn-primary">Save changes</button>
+  <a class="btn btn-outline-secondary" href="{{ url_for('complaints.complaint_detail', complaint_id=complaint.id) }}">Cancel</a></div>
+</form>
+{% endblock %}

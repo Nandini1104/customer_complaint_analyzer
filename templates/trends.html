@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Complaint Trends{% endblock %}
+{% block page_id %}trends{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">Complaint Trends</h1>
+<form id="filterForm" class="card p-3 mb-3" onsubmit="return false"><div class="row g-2">
+  <div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" id="period" name="period_ui" aria-label="Group by">
+    <option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+  {% include "_filters.html" %}
+</div></form>
+<div class="chart-error alert alert-warning d-none"></div>
+<div class="card"><div class="card-header">Complaints over time</div><div class="card-body"><div class="chart-box" style="height:380px"><canvas id="trendChart"></canvas></div>
+  <p id="trendChart-empty" class="text-muted small d-none">No data for this selection.</p></div></div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

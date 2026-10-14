@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+.git/
+database/*.db
+database/.secret_key
+analysis/sentiment_model.joblib
+tests/
+.env

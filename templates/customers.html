@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sentiment %}
+{% block title %}Customers{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h1 class="page-title">Customers <span class="text-muted fs-6">({{ rows|length }})</span></h1>
+  <form class="d-flex gap-2" method="get"><input class="form-control form-control-sm" name="q" value="{{ q }}" placeholder="Search name or email"><button class="btn btn-sm btn-primary">Search</button></form>
+</div>
+<div class="card"><div class="table-responsive"><table class="table table-hover mb-0">
+  <thead class="table-light"><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Complaints</th><th>Last Complaint</th><th>Sentiment Summary</th></tr></thead><tbody>
+  {% for r in rows %}<tr>
+    <td><a href="{{ url_for('customers.customer_detail', customer_id=r.customer.id) }}">{{ r.customer.name }}</a></td>
+    <td>{{ r.customer.email }}</td><td>{{ r.customer.phone or '-' }}</td><td>{{ r.total }}</td><td>{{ r.last|dt('%d %b %Y') }}</td>
+    <td>{{ sentiment(r.overall) if r.overall != '-' else '-' }}
+      <span class="text-muted small">(+{{ r.counts.Positive }} / −{{ r.counts.Negative }} / ={{ r.counts.Neutral }})</span></td></tr>
+  {% else %}<tr><td colspan="6" class="text-center text-muted py-4">No customers yet. They are created automatically when complaints are added.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

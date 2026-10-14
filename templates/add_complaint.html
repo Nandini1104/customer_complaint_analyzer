@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Add Complaint{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">Add Complaint</h1>
+{% if result %}
+<div class="card border-success mb-3"><div class="card-header text-success">Analysis result for complaint #{{ result.complaint_id }}</div><div class="card-body">
+  <div class="row g-3">
+    <div class="col-6 col-md-3"><div class="stat-label">Sentiment</div><span class="sent-dot sent-{{ result.sentiment }}"></span><strong>{{ result.sentiment }}</strong></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Confidence</div><strong>{{ result.confidence|pct }}</strong></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Category</div><strong>{{ result.category }}</strong>
+      <div class="small text-muted">Predicted: {{ result.predicted_category }} ({{ result.category_confidence|pct }})</div></div>
+    <div class="col-6 col-md-3"><div class="stat-label">Priority</div>{{ badge(result.priority) }}
+      <div class="small text-muted">{{ result.priority_reasons|join(', ') or 'no risk factors' }}</div></div>
+  </div>
+  <div class="small text-muted mt-3">Probabilities:
+    {% for k, v in result.probabilities.items() %}{{ k }} {{ (v*100)|round(0)|int }}%{{ ' · ' if not loop.last }}{% endfor %}</div>
+  <div class="small text-muted">Cleaned text: <code>{{ result.cleaned_text }}</code></div>
+  <a class="btn btn-sm btn-outline-primary mt-3" href="{{ url_for('complaints.complaint_detail', complaint_id=result.complaint_id) }}">Open complaint</a>
+</div></div>
+{% endif %}
+<form class="card p-4" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <div class="row g-3">
+    <div class="col-md-6"><label class="form-label">Customer Name *</label><input class="form-control" name="customer_name" required maxlength="120" value="{{ form.get('customer_name','') }}"></div>
+    <div class="col-md-6"><label class="form-label">Customer Email *</label><input class="form-control" type="email" name="customer_email" required value="{{ form.get('customer_email','') }}"></div>
+    <div class="col-md-6"><label class="form-label">Customer Phone (optional)</label><input class="form-control" name="customer_phone" maxlength="30" value="{{ form.get('customer_phone','') }}"></div>
+    <div class="col-md-6"><label class="form-label">Product / Service</label><input class="form-control" name="product" maxlength="150" value="{{ form.get('product','') }}" placeholder="e.g. Wireless Headphones"></div>
+    <div class="col-12"><label class="form-label">Complaint Text *</label><textarea class="form-control" name="complaint_text" rows="5" required minlength="5" maxlength="5000" placeholder="Describe the problem in the customer's own words">{{ form.get('complaint_text','') }}</textarea></div>
+    <div class="col-md-4"><label class="form-label">Complaint Category</label><select class="form-select" name="category">
+      <option value="">{{ 'Detect automatically' if auto_category else 'Other (auto-detect is off)' }}</option>
+      {% for c in categories %}<option {{ 'selected' if form.get('category') == c }}>{{ c }}</option>{% endfor %}</select></div>
+    <div class="col-md-4"><label class="form-label">Order / Reference ID (optional)</label><input class="form-control" name="reference_id" maxlength="80" value="{{ form.get('reference_id','') }}"></div>
+    <div class="col-md-4"><label class="form-label">Platform / Source</label><select class="form-select" name="platform">
+      {% for p in platforms %}<option {{ 'selected' if form.get('platform') == p }}>{{ p }}</option>{% endfor %}</select></div>
+    <div class="col-md-4"><label class="form-label">Date / Time (blank = now)</label><input class="form-control" type="datetime-local" name="timestamp" value="{{ form.get('timestamp','') }}"></div>
+  </div>
+  <div class="mt-4"><button class="btn btn-primary">Analyze &amp; Save</button></div>
+</form>
+{% endblock %}

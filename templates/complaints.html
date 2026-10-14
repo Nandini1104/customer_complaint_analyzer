@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, sentiment, pager %}
+{% block title %}Complaints{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h1 class="page-title">Complaints <span class="text-muted fs-6">({{ pagination.total }})</span></h1>
+  <a class="btn btn-primary" href="{{ url_for('complaints.add_complaint') }}">+ Add Complaint</a>
+</div>
+<form class="card p-3 mb-3" method="get"><div class="row g-2">
+  <div class="col-12 col-md-6 col-xl-4"><input class="form-control form-control-sm" name="q" value="{{ request.args.get('q','') }}" placeholder="ID, customer, email, product, text, order ID"></div>
+  {% include "_filters.html" %}
+  <div class="col-12 col-xl-auto ms-xl-auto d-flex gap-2"><button class="btn btn-sm btn-primary">Apply</button><a class="btn btn-sm btn-outline-secondary" href="{{ url_for('complaints.list_complaints') }}">Reset</a></div>
+</div></form>
+<div class="card"><div class="table-responsive"><table class="table table-hover mb-0">
+  <thead class="table-light"><tr><th>ID</th><th>Customer</th><th>Product</th><th>Complaint</th><th>Sentiment</th><th>Conf.</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th><th class="text-end">Actions</th></tr></thead>
+  <tbody>
+  {% for c in pagination.items %}
+  <tr><td>#{{ c.id }}</td><td>{{ c.customer.name }}<div class="text-muted small">{{ c.customer.email }}</div></td><td>{{ c.product }}</td>
+    <td><div class="text-clip" title="{{ c.complaint_text }}">{{ c.complaint_text }}</div></td>
+    <td>{{ sentiment(c.sentiment) }}</td><td>{{ c.confidence|pct }}</td><td>{{ c.category }}</td><td>{{ badge(c.priority) }}</td><td>{{ badge(c.status) }}</td>
+    <td class="text-nowrap small">{{ c.created_at|dt('%d %b %Y') }}</td>
+    <td class="text-end text-nowrap">
+      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('complaints.complaint_detail', complaint_id=c.id) }}">View</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('complaints.edit_complaint', complaint_id=c.id) }}">Edit</a>
+      <div class="btn-group"><button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Status</button>
+        <ul class="dropdown-menu">{% for s in statuses %}<li>
+          <form method="post" action="{{ url_for('complaints.update_status', complaint_id=c.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <input type="hidden" name="status" value="{{ s }}"><input type="hidden" name="next" value="{{ request.full_path.rstrip('?') }}">
+          <button class="dropdown-item {{ 'active' if c.status == s }}">{{ s }}</button></form></li>{% endfor %}</ul></div>
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('complaints.complaint_detail', complaint_id=c.id) }}#add-note">Note</a>
+      <form class="d-inline" method="post" action="{{ url_for('complaints.delete_complaint', complaint_id=c.id) }}" onsubmit="return confirm('Delete complaint #{{ c.id }}? This cannot be undone.')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="btn btn-sm btn-outline-danger">Delete</button></form>
+    </td></tr>
+  {% else %}<tr><td colspan="11" class="text-center text-muted py-4">No complaints match your filters.</td></tr>{% endfor %}
+  </tbody></table></div></div>
+{{ pager(pagination, 'complaints.list_complaints') }}
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/charts.js') }}"></script>{% endblock %}

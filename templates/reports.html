@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+{% set s = data.summary %}{% set d = data.dist %}{% set t = data.trend %}
+<h1 class="page-title mb-3">Reports</h1>
+<form class="card p-3 mb-3" method="get"><div class="row g-2">
+  {% include "_filters.html" %}
+  <div class="col-12 col-xl-auto ms-xl-auto d-flex gap-2"><button class="btn btn-sm btn-primary">Generate report</button><a class="btn btn-sm btn-outline-secondary" href="{{ url_for('reports.reports') }}">Reset</a></div>
+</div></form>
+<div class="d-flex gap-2 mb-3 flex-wrap">
+  <a class="btn btn-outline-primary btn-sm" href="{{ url_for('reports.export_complaints', **request.args.to_dict()) }}">Download complaints (CSV)</a>
+  <a class="btn btn-outline-primary btn-sm" href="{{ url_for('reports.export_summary', **request.args.to_dict()) }}">Download summary (CSV)</a>
+</div>
+<div class="row g-3 mb-3">
+  {% for label, value in [('Total', s.total), ('Positive', s.positive), ('Negative', s.negative), ('Neutral', s.neutral), ('Resolved / Closed', s.resolved_count), ('Avg resolution', s.avg_resolution_hours|hours)] %}
+  <div class="col-6 col-md-4 col-xl-2"><div class="card stat-card"><div class="stat-label">{{ label }}</div><div class="stat-value">{{ value }}</div></div></div>{% endfor %}
+</div>
+<div class="row g-3">
+  {% for title, rows in [('Categories', d.category), ('Priority distribution', d.priority), ('Status distribution', d.status)] %}
+  <div class="col-md-4"><div class="card"><div class="card-header">{{ title }}</div><table class="table table-sm mb-0"><tbody>
+    {% for name, count in rows.items() %}<tr><td>{{ name }}</td><td class="text-end">{{ count }}</td></tr>{% endfor %}</tbody></table></div></div>
+  {% endfor %}
+  <div class="col-12"><div class="card"><div class="card-header">Complaint trend (daily)</div><div class="table-responsive" style="max-height:320px"><table class="table table-sm mb-0">
+    <thead class="table-light"><tr><th>Date</th><th>Total</th><th>Positive</th><th>Negative</th><th>Neutral</th></tr></thead><tbody>
+    {% for i in range(t.labels|length) %}<tr><td>{{ t.labels[i] }}</td><td>{{ t.total[i] }}</td><td>{{ t.Positive[i] }}</td><td>{{ t.Negative[i] }}</td><td>{{ t.Neutral[i] }}</td></tr>
+    {% else %}<tr><td colspan="5" class="text-center text-muted py-3">No data for these filters.</td></tr>{% endfor %}</tbody></table></div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/charts.js') }}"></script>{% endblock %}

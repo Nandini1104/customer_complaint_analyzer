@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, sentiment %}
+{% block title %}Complaint #{{ complaint.id }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h1 class="page-title">Complaint #{{ complaint.id }}</h1>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary" href="{{ url_for('complaints.edit_complaint', complaint_id=complaint.id) }}">Edit</a>
+    <form method="post" action="{{ url_for('complaints.delete_complaint', complaint_id=complaint.id) }}" onsubmit="return confirm('Delete this complaint permanently?')">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="btn btn-outline-danger">Delete</button></form>
+  </div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="card mb-3"><div class="card-header">Complaint</div><div class="card-body">
+      <p class="fs-6">“{{ complaint.complaint_text }}”</p>
+      <div class="text-muted small">Cleaned text (used by the NLP models)</div>
+      <code class="d-block mb-3">{{ complaint.cleaned_text }}</code>
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="stat-label">Sentiment</div>{{ sentiment(complaint.sentiment) }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Confidence</div>{{ complaint.confidence|pct }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Category</div>{{ complaint.category }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Priority</div>{{ badge(complaint.priority) }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Status</div>{{ badge(complaint.status) }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Platform</div>{{ complaint.platform }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Reference ID</div>{{ complaint.reference_id or '-' }}</div>
+        <div class="col-6 col-md-3"><div class="stat-label">Created</div>{{ complaint.created_at|dt }}</div>
+      </div></div></div>
+    <div class="card" id="add-note"><div class="card-header">History &amp; Admin Notes</div><div class="card-body">
+      <ul class="timeline mb-3">
+        {% for h in complaint.history %}
+        <li><strong>{{ h.created_at|dt('%d %b %Y, %I:%M %p') }}</strong> {% if h.status %}{{ badge(h.status) }}{% endif %}<div>{{ h.note }}</div></li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{{ url_for('complaints.create_note', complaint_id=complaint.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label class="form-label">Add admin note</label>
+        <textarea class="form-control mb-2" name="note" rows="2" maxlength="2000" required placeholder="e.g. Customer contacted by email. Replacement approved."></textarea>
+        <button class="btn btn-primary btn-sm">Save note</button>
+      </form></div></div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card mb-3"><div class="card-header">Customer</div><div class="card-body">
+      <strong><a href="{{ url_for('customers.customer_detail', customer_id=complaint.customer.id) }}">{{ complaint.customer.name }}</a></strong>
+      <div>{{ complaint.customer.email }}</div><div class="text-muted">{{ complaint.customer.phone or 'No phone' }}</div>
+      <hr><div class="stat-label">Product / Service</div>{{ complaint.product }}</div></div>
+    <div class="card"><div class="card-header">Change status</div><div class="card-body">
+      <form method="post" action="{{ url_for('complaints.update_status', complaint_id=complaint.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <select class="form-select mb-2" name="status">{% for s in statuses %}<option {{ 'selected' if s == complaint.status }}>{{ s }}</option>{% endfor %}</select>
+        <input class="form-control mb-2" name="note" maxlength="300" placeholder="Optional note for the history">
+        <button class="btn btn-primary w-100">Update status</button>
+      </form></div></div>
+  </div>
+</div>
+{% endblock %}

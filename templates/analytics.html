@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sentiment Analytics{% endblock %}
+{% block page_id %}analytics{% endblock %}
+{% block content %}
+<h1 class="page-title mb-3">Sentiment Analytics</h1>
+<form id="filterForm" class="card p-3 mb-3" onsubmit="return false"><div class="row g-2">
+  {% include "_filters.html" %}
+</div></form>
+<div class="chart-error alert alert-warning d-none"></div>
+<p class="text-muted">Complaints in selection: <strong id="totalCount">0</strong></p>
+<div class="row g-3">
+  <div class="col-lg-4"><div class="card h-100"><div class="card-header">Sentiment Distribution</div><div class="card-body"><div class="chart-box"><canvas id="sentimentChart"></canvas></div><p id="sentimentChart-empty" class="text-muted small d-none">No data for this selection.</p></div></div></div>
+  <div class="col-lg-8"><div class="card h-100"><div class="card-header">Sentiment over time (daily)</div><div class="card-body"><div class="chart-box"><canvas id="trendChart"></canvas></div></div></div></div>
+  <div class="col-lg-4"><div class="card"><div class="card-header">Complaint Status</div><div class="card-body"><div class="chart-box"><canvas id="statusChart"></canvas></div></div></div></div>
+  <div class="col-lg-4"><div class="card"><div class="card-header">Priority</div><div class="card-body"><div class="chart-box"><canvas id="priorityChart"></canvas></div></div></div></div>
+  <div class="col-lg-4"><div class="card"><div class="card-header">Categories</div><div class="card-body"><div class="chart-box"><canvas id="categoryChart"></canvas></div></div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

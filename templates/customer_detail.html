@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, sentiment %}
+{% block title %}{{ customer.name }}{% endblock %}
+{% block content %}
+<a class="small" href="{{ url_for('customers.list_customers') }}">← All customers</a>
+<h1 class="page-title mb-1">{{ customer.name }}</h1>
+<p class="text-muted">{{ customer.email }} · {{ customer.phone or 'No phone' }} · Customer since {{ customer.created_at|dt('%d %b %Y') }}</p>
+<div class="card"><div class="card-header">Complaint history ({{ complaints|length }})</div><div class="table-responsive"><table class="table mb-0">
+  <thead class="table-light"><tr><th>ID</th><th>Product</th><th>Complaint</th><th>Sentiment</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th></tr></thead><tbody>
+  {% for c in complaints %}<tr><td><a href="{{ url_for('complaints.complaint_detail', complaint_id=c.id) }}">#{{ c.id }}</a></td><td>{{ c.product }}</td>
+    <td><div class="text-clip">{{ c.complaint_text }}</div></td><td>{{ sentiment(c.sentiment) }}</td><td>{{ c.category }}</td>
+    <td>{{ badge(c.priority) }}</td><td>{{ badge(c.status) }}</td><td class="small">{{ c.created_at|dt('%d %b %Y') }}</td></tr>
+  {% else %}<tr><td colspan="8" class="text-center text-muted py-3">No complaints.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

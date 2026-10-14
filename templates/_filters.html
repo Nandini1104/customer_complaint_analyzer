@@ -1,0 +1,18 @@
+{# Shared filter fields. Expects: categories, statuses, platforms, products; values come from request.args #}
+{% set a = request.args %}
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="sentiment"><option value="">Sentiment: all</option>
+  {% for s in ['Positive','Negative','Neutral'] %}<option {{ 'selected' if a.get('sentiment') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="priority"><option value="">Priority: all</option>
+  {% for s in ['Low','Medium','High'] %}<option {{ 'selected' if a.get('priority') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="status"><option value="">Status: all</option>
+  {% for s in statuses %}<option {{ 'selected' if a.get('status') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="category"><option value="">Category: all</option>
+  {% for s in categories %}<option {{ 'selected' if a.get('category') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="product"><option value="">Product: all</option>
+  {% for s in products %}<option {{ 'selected' if a.get('product') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="platform"><option value="">Platform: all</option>
+  {% for s in platforms %}<option {{ 'selected' if a.get('platform') == s }}>{{ s }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2"><select class="form-select form-select-sm" name="date_range"><option value="">Date: all time</option>
+  {% for v, l in [('today','Today'),('7d','Last 7 days'),('30d','Last 30 days'),('custom','Custom range')] %}<option value="{{ v }}" {{ 'selected' if a.get('date_range') == v }}>{{ l }}</option>{% endfor %}</select></div>
+<div class="col-6 col-md-3 col-xl-2 custom-dates d-none"><input class="form-control form-control-sm" type="date" name="date_from" value="{{ a.get('date_from', '') }}" title="From"></div>
+<div class="col-6 col-md-3 col-xl-2 custom-dates d-none"><input class="form-control form-control-sm" type="date" name="date_to" value="{{ a.get('date_to', '') }}" title="To"></div>

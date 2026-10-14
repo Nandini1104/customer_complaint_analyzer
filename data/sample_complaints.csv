@@ -1,0 +1,59 @@
+customer_name,customer_email,product,complaint_text,category,platform,timestamp
+Rahul Patel,rahul.patel@example.com,Wireless Headphones,The headphones stopped working after only two days. I am very disappointed with this product.,,Website,2026-09-15 10:15:00
+Priya Sharma,priya.sharma@example.com,Smart Watch,The product quality is excellent. I am very satisfied.,Quality,Email,2026-09-15 14:40:00
+Amit Verma,amit.verma@example.com,Running Shoes,My order has not arrived even after ten days.,Delivery,Website,2026-09-16 09:05:00
+Sneha Iyer,sneha.iyer@example.com,Laptop Pro 14,I was charged twice for the same order.,Payment,Mobile App,2026-09-16 18:20:00
+Vikram Singh,vikram.singh@example.com,Mobile App,The customer support team solved my issue quickly.,Customer Service,Phone,2026-09-17 11:00:00
+Neha Gupta,neha.gupta@example.com,Document Scanner App,The application crashes whenever I try to upload a document.,Technical Issue,Mobile App,2026-09-17 16:35:00
+Arjun Mehta,arjun.mehta@example.com,Bluetooth Speaker,The speaker sounds amazing and the battery lasts all day.,Product,Website,2026-09-18 08:50:00
+Divya Nair,divya.nair@example.com,Premium Plan,The subscription price is far too high compared to other providers.,Pricing,Email,2026-09-18 13:10:00
+Karan Joshi,karan.joshi@example.com,Cotton Shirt,The stitching came apart after the first wash. Very poor quality.,Quality,Website,2026-09-19 10:25:00
+Pooja Reddy,pooja.reddy@example.com,Wireless Headphones,I would like to know the status of my refund request.,Refund,Chat,2026-09-19 15:45:00
+Manish Kumar,manish.kumar@example.com,Online Account,I can not log in to my account and the password reset link does not work.,Account,Website,2026-09-20 09:30:00
+Anjali Desai,anjali.desai@example.com,Air Fryer,Delivery was fast and the packaging was perfect. Thank you!,Delivery,Email,2026-09-20 17:15:00
+Rahul Patel,rahul.patel@example.com,Wireless Headphones,I still have not received a replacement or a refund. This is very frustrating.,Refund,Email,2026-09-21 10:00:00
+Priya Sharma,priya.sharma@example.com,Smart Watch,Please share the warranty details for my smart watch.,Other,Chat,2026-09-21 12:30:00
+Amit Verma,amit.verma@example.com,Running Shoes,The courier delayed my shipment again and nobody is giving me an update.,Delivery,Phone,2026-09-22 11:45:00
+Sneha Iyer,sneha.iyer@example.com,Laptop Pro 14,My payment was deducted but my order was not confirmed.,Payment,Website,2026-09-22 19:05:00
+Vikram Singh,vikram.singh@example.com,Mobile App,The new update made the app much faster. I really like it.,Technical Issue,Mobile App,2026-09-23 08:40:00
+Neha Gupta,neha.gupta@example.com,Document Scanner App,The support agent was rude and refused to help me.,Customer Service,Phone,2026-09-23 14:20:00
+Arjun Mehta,arjun.mehta@example.com,Bluetooth Speaker,The speaker is overpriced and not worth the money.,Pricing,Website,2026-09-24 10:50:00
+Divya Nair,divya.nair@example.com,Premium Plan,Hidden charges were added to my bill without any notice.,Payment,Email,2026-09-24 16:10:00
+Karan Joshi,karan.joshi@example.com,Cotton Shirt,The shirt colour has faded and the material feels cheap.,Quality,Website,2026-09-25 09:15:00
+Pooja Reddy,pooja.reddy@example.com,Wireless Headphones,The refund was credited quickly and I am happy with the process.,Refund,Email,2026-09-25 13:55:00
+Manish Kumar,manish.kumar@example.com,Online Account,My account was locked and nobody can tell me why.,Account,Chat,2026-09-26 11:20:00
+Anjali Desai,anjali.desai@example.com,Air Fryer,The air fryer stopped heating after a week. Totally useless.,Product,Website,2026-09-26 18:30:00
+Rahul Patel,rahul.patel@example.com,Smart Watch,I want to change the delivery address for my order.,Delivery,Chat,2026-09-27 10:10:00
+Priya Sharma,priya.sharma@example.com,Smart Watch,I was charged twice and the support team has not replied to my emails.,,Email,2026-09-27 15:25:00
+Amit Verma,amit.verma@example.com,Running Shoes,The shoes are comfortable and look great. Very happy with them.,Product,Website,2026-09-28 09:45:00
+Sneha Iyer,sneha.iyer@example.com,Laptop Pro 14,The laptop battery drains within an hour which is unacceptable.,Product,Website,2026-09-28 14:05:00
+Vikram Singh,vikram.singh@example.com,Mobile App,The app freezes every time I open the payment page.,Technical Issue,Mobile App,2026-09-29 12:15:00
+Neha Gupta,neha.gupta@example.com,Document Scanner App,Thanks for fixing the upload bug so fast. Great job by the team.,Technical Issue,Email,2026-09-29 17:40:00
+Arjun Mehta,arjun.mehta@example.com,Bluetooth Speaker,The package arrived damaged and the box was torn.,Delivery,Website,2026-09-30 10:35:00
+Divya Nair,divya.nair@example.com,Premium Plan,I would like to cancel my subscription next month. Please advise the process.,Other,Email,2026-09-30 13:20:00
+Karan Joshi,karan.joshi@example.com,Cotton Shirt,Excellent quality fabric and fast shipping.,Quality,Website,2026-10-01 09:00:00
+Pooja Reddy,pooja.reddy@example.com,Wireless Headphones,The refund request was rejected without any reason. I am very upset.,Refund,Phone,2026-10-01 11:30:00
+Manish Kumar,manish.kumar@example.com,Online Account,The login problem was solved within minutes. Wonderful support.,Account,Chat,2026-10-02 10:05:00
+Anjali Desai,anjali.desai@example.com,Air Fryer,The replacement air fryer is also defective and nobody is responding.,Product,Email,2026-10-02 16:45:00
+Rahul Patel,rahul.patel@example.com,Laptop Pro 14,The price dropped two days after I bought it. That feels unfair.,Pricing,Website,2026-10-03 12:00:00
+Priya Sharma,priya.sharma@example.com,Smart Watch,Can you tell me when the new model will be available?,Other,Chat,2026-10-03 14:50:00
+Amit Verma,amit.verma@example.com,Online Account,I want to update my phone number on my account.,Account,Website,2026-10-04 09:25:00
+Sneha Iyer,sneha.iyer@example.com,Laptop Pro 14,Worst customer service ever. I waited two hours on the helpline and no one answered.,Customer Service,Phone,2026-10-04 17:10:00
+Vikram Singh,vikram.singh@example.com,Mobile App,The checkout page does not load and I can not place my order.,Technical Issue,Mobile App,2026-10-05 08:55:00
+Neha Gupta,neha.gupta@example.com,Document Scanner App,The app is easy to use and works perfectly.,Technical Issue,Mobile App,2026-10-05 15:35:00
+Arjun Mehta,arjun.mehta@example.com,Bluetooth Speaker,The delivery person was courteous and the parcel arrived on time.,Delivery,Website,2026-10-06 10:40:00
+Divya Nair,divya.nair@example.com,Premium Plan,The discount coupon was not applied at checkout and I paid the full price.,Pricing,Website,2026-10-06 13:15:00
+Karan Joshi,karan.joshi@example.com,Cotton Shirt,I received the wrong size and the return process is a nightmare.,Product,Email,2026-10-07 11:50:00
+Pooja Reddy,pooja.reddy@example.com,Online Account,Please send me a copy of my invoice for the last order.,Payment,Email,2026-10-07 16:20:00
+Manish Kumar,manish.kumar@example.com,Online Account,I keep receiving promotional messages even after I unsubscribed.,Account,Email,2026-10-08 09:10:00
+Anjali Desai,anjali.desai@example.com,Air Fryer,The payment was deducted twice and I have not received my refund.,,Website,2026-10-08 14:30:00
+Rahul Patel,rahul.patel@example.com,Wireless Headphones,The new headphones work well and the sound is clear. Thanks for the quick help.,Product,Email,2026-10-09 10:20:00
+Priya Sharma,priya.sharma@example.com,Smart Watch,The watch strap broke within a month. Poor quality material.,Quality,Website,2026-10-09 12:45:00
+Amit Verma,amit.verma@example.com,Running Shoes,The tracking page shows nothing and my parcel seems lost.,Delivery,Website,2026-10-10 09:35:00
+Sneha Iyer,sneha.iyer@example.com,Laptop Pro 14,The payment gateway declined my card but money was debited from my account.,Payment,Mobile App,2026-10-10 18:05:00
+Vikram Singh,vikram.singh@example.com,Mobile App,The agent was patient and explained everything clearly.,Customer Service,Phone,2026-10-11 11:10:00
+Neha Gupta,neha.gupta@example.com,Document Scanner App,The software has constant bugs and keeps showing errors.,Technical Issue,Website,2026-10-11 15:55:00
+Arjun Mehta,arjun.mehta@example.com,Bluetooth Speaker,Subscription fees keep rising every year. It is too expensive now.,Pricing,Email,2026-10-12 10:30:00
+Divya Nair,divya.nair@example.com,Premium Plan,I contacted support yesterday and I am waiting for their answer.,Customer Service,Chat,2026-10-12 13:40:00
+Karan Joshi,karan.joshi@example.com,Cotton Shirt,Never buying from this store again. Terrible experience from start to finish.,Other,Website,2026-10-13 09:50:00
+Pooja Reddy,pooja.reddy@example.com,Wireless Headphones,The order arrived early and everything was in perfect condition.,Delivery,Website,2026-10-13 12:25:00
